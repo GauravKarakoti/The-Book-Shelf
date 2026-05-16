@@ -2,7 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { auth } from "../store/actions/user_action";
 
-export default function(ComposedClass, reload) {
+export default function authHoc(ComposedClass, reload) {
     class AuthenticationCheck extends Component {
         state = {
             loading: true

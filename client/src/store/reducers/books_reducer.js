@@ -1,6 +1,6 @@
 import { BOOK_ADD, BOOK_CLEAR, BOOK_GET, BOOK_UPDATE, BOOKS_GET } from "../types";
 
-export default function(state={}, action) {
+export default function booksReducer(state={}, action) {
     switch(action.type) {
         case BOOK_ADD:
             return {...state, add: action.payload}

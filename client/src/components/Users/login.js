@@ -3,7 +3,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { loginUser } from "../../store/actions/user_action";
-import { Link } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()

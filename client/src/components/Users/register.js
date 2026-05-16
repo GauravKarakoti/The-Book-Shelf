@@ -3,7 +3,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { registerUser } from "../../store/actions/user_action";
-import { Link } from "react-router-dom";
 
 const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Required!!'),
