@@ -28,32 +28,36 @@ class Edit extends Component {
         this.props.dispatch(editBook(values));
     }
     componentDidUpdate(prevProps) {
-        const hasChanged = this.props.books.single !== prevProps.books.single;
-        const hasUpdated = this.props.books.update !== prevProps.books.update;
-        const single = this.props.books.single;
-        if(hasUpdated) {
-            this.setState({ success: true });
-        }
-        if(hasChanged) {
-            if(single !== null) {
-                console.log(single);
-                const blocksFromHtml = htmlToDraft(single.content);
-                const { contentBlocks, entityMap } = blocksFromHtml;
-                const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-                this.setState({
-                    loading: false,
-                    editorState: EditorState.createWithContent(contentState),
-                    bookToEdit: {
-                        _id: single._id,
-                        name: single.name,
-                        author: single.author,
-                        pages: single.pages,
-                        rating: single.rating,
-                        price: single.price
-                    }
-                });
-            } else {
-                this.props.history.push('/');
+        if(prevProps.books.update !== undefined) {
+            const hasChanged = this.props.books.single !== prevProps.books.single;
+            const hasUpdated = this.props.books.update !== prevProps.books.update;
+            const single = this.props.books.single;
+            
+            if(hasUpdated) {
+                this.setState({ success: true });
+            }
+            if(hasChanged) {
+                if(single !== false && single !== null) { 
+                    const htmlContent = single.content || "";
+                    const blocksFromHtml = htmlToDraft(htmlContent);
+
+                    const { contentBlocks, entityMap } = blocksFromHtml;
+                    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                    this.setState({
+                        loading: false,
+                        editorState: EditorState.createWithContent(contentState),
+                        bookToEdit: {
+                            _id: single._id,
+                            name: single.name,
+                            author: single.author,
+                            pages: single.pages,
+                            rating: single.rating,
+                            price: single.price
+                        }
+                    });
+                } else if (single === false) {
+                    this.props.history.push('/');
+                }
             }
         }
     }
@@ -75,7 +79,7 @@ class Edit extends Component {
                     onSubmit={(values, { resetForm }) => {
                         this.onEditBook({
                             ...values,
-                            content: stateToHTML(this.state.editorState.getCurrentContet())
+                            content: stateToHTML(this.state.editorState.getCurrentContent())
                         });
                     }}
                 >
