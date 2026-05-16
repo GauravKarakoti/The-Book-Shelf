@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export const RowGenerator = (list, cols) => {
-    const rows = [...Array(Math.ceil(lists.length/cols))];
+    const rows = [...Array(Math.ceil(list.length/cols))];
     const articlesRows = rows.map(
         (row, i) => list.slice(i*cols, i*cols+cols)
     );

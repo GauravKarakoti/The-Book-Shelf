@@ -22,7 +22,7 @@
     "react-draft-wysiwyg": "^1.15.0",
     "react-fontawesome": "^1.7.1",
     "react-redux": "^8.1.3",
-    "react-router-dom": "^6.30.1",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-simple-sidenav": "^3.0.0",
     "redux": "^4.2.1",

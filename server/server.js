@@ -7,12 +7,7 @@ const books = require('./routes/books');
 const config = require('./config/config').get(process.env.NODE_ENV);
 require('dotenv').config();
 const app = express();
-mongoose.connect(config.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-});
+mongoose.connect(config.DATABASE);
 // MIDDLEWARE
 app.use(bodyParser.json());
 app.use(cookieParser());
