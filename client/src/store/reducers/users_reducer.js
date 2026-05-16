@@ -1,8 +1,9 @@
-import { USER_AUTH, USER_LOGIN, USER_LOGOUT } from "../types";
+import { USER_AUTH, USER_LOGIN, USER_LOGOUT, USER_REGISTER } from "../types";
 
 export default function(state={}, action) {
     switch(action.type) {
         case USER_LOGIN:
+        case USER_REGISTER:
             return {...state, auth: action.payload.auth, userData: action.payload.userData}
         case USER_AUTH:
             return {

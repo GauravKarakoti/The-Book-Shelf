@@ -32,7 +32,7 @@ const AdminPosts = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {posts.map((item, index) => {
+                        {posts.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Link to={`/admin/posts/edit/${item._id}`}>{item.name}</Link>
@@ -41,7 +41,7 @@ const AdminPosts = (props) => {
                                 <TableCell>{moment(item.createdAt).format("MM/DD/YY")}</TableCell>
                                 <TableCell>{item.rating}</TableCell>
                             </TableRow>
-                        })}
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

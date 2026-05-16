@@ -35,7 +35,8 @@ class Edit extends Component {
             this.setState({ success: true });
         }
         if(hasChanged) {
-            if(single !== false) {
+            if(single !== null) {
+                console.log(single);
                 const blocksFromHtml = htmlToDraft(single.content);
                 const { contentBlocks, entityMap } = blocksFromHtml;
                 const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
@@ -151,7 +152,7 @@ class Edit extends Component {
                                 touched={touched.price}
                             />
                             <button type="submit">
-                                Add Book
+                                Edit Book
                             </button>
                             <br/>
                             {

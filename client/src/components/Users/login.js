@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { loginUser } from "../../store/actions/user_action";
+import { Link } from "react-router-dom";
 
 const LoginSchema = Yup.object().shape({
     password: Yup.string()
@@ -106,6 +107,14 @@ class Login extends Component {
                         </form>
                     )}
                 </Formik>
+                <div 
+                    style={{
+                        cursor: "pointer"
+                    }}
+                    onClick={() => this.props.history.push('/register')}
+                >
+                    Don't have an account?
+                </div>
             </div>
         )
     }

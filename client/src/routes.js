@@ -11,6 +11,7 @@ import AdminPosts from './components/Users/Admin/Posts/posts';
 import MainLayout from './hoc/mainLayout';
 import Auth from './hoc/auth';
 import Article from './components/Article';
+import Register from './components/Users/register';
 const Routes = () => {
     return (
         <BrowserRouter>
@@ -23,6 +24,7 @@ const Routes = () => {
                     <Route path='/admin' component={Auth(Admin, true)}/>
                     <Route path='/logout' component={Auth(Logout, true)}/>
                     <Route path='/login' component={Auth(Login, false)}/>
+                    <Route path='/register' component={Auth(Register, false)}/>
                     <Route path='/' component={Auth(Home)}/>
                 </Switch>
             </MainLayout>

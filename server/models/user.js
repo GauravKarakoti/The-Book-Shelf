@@ -31,19 +31,17 @@ const userSchema = mongoose.Schema({
         type: String
     }
 });
-userSchema.pre('save', function(next) {
-    var user = this;
-    if(user.isModified('password')) {
-        bcrypt.genSalt(SALT_I, function(err, salt) {
-            if(err) return next(err);
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if(err) return next(err);
-                user.password=hash;
-                next();
-            });
-        })
-    } else {
-        next();
+userSchema.pre('save', async function() {
+    const user = this;
+    
+    if (user.isModified('password')) {
+        try {
+            const salt = await bcrypt.genSalt(SALT_I);
+            const hash = await bcrypt.hash(user.password, salt);
+            user.password = hash;
+        } catch (err) {
+            throw err;
+        }
     }
 });
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
