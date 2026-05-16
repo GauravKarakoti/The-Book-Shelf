@@ -3,47 +3,62 @@ const router = express.Router();
 // MODELS
 const { Book } = require('../models/book');
 const { auth } = require('../middleware/auth');
+
 router.route('/book')
     .get((req, res) => {
         // /api/books/book?id=sdfsdf
         let id = req.query.id;
+        
         Book.find({ _id: id })
             .populate('ownerId')
-            .exec((err, doc) => {
-                if(err) return res.status(400).send(err);
+            .then(doc => {
                 res.send(doc);
+            })
+            .catch(err => {
+                res.status(400).send(err);
             });
-        // Book.findById({ _id: id }, (err, doc) => {
-        //     if(err) return res.status(400).send(err);
-        //     res.send(doc);
-        // });
+            
     }).post(auth, (req, res) => {
         const book = new Book({
             ...req.body,
             ownerId: req.user._id
         });
-        book.save((err, doc) => {
-            if(err) return res.status(400).send(err);
-            res.status(200).json({
-                post: true,
-                bookId: doc._id
+        
+        book.save()
+            .then(doc => {
+                res.status(200).json({
+                    post: true,
+                    bookId: doc._id
+                });
             })
-        });
-    }).patch(auth, (req, res) => {
-        Book.findByIdAndUpdate(req,body._id, req.body, { new: true }, (err, doc) => {
-            if(err) return res.status(400).send(err);
-            res.json({
-                success: true,
-                doc
+            .catch(err => {
+                res.status(400).send(err);
             });
-        });
+            
+    }).patch(auth, (req, res) => {
+        Book.findByIdAndUpdate(req.body._id, req.body, { new: true })
+            .then(doc => {
+                res.json({
+                    success: true,
+                    doc
+                });
+            })
+            .catch(err => {
+                res.status(400).send(err);
+            });
+            
     }).delete(auth, (req, res) => {
         let id = req.query.id;
-        Book.findByIdAndRemove(id, (err, doc) => {
-            if(err) return res.status(400).send(err);
-            res.json(true);
-        });
+        
+        Book.findByIdAndDelete(id)
+            .then(doc => {
+                res.json(true);
+            })
+            .catch(err => {
+                res.status(400).send(err);
+            });
     });
+
 // ROUTE "ALL BOOKS"
 router.route('/all_books')
     .get((req, res) => {
@@ -52,9 +67,14 @@ router.route('/all_books')
         let limit = req.query.limit ? parseInt(req.query.limit) : 50;
         let order = req.query.order ? req.query.order : 'asc';
         let byOwner = req.query.owner ? { ownerId: req.query.owner } : {};
-        Book.find(byOwner).skip(skip).sort({ _id: order }).limit(limit).exec((err, doc) => {
-            if(err) return res.status(400).send(err);
-            res.send(doc);
-        });
+        
+        Book.find(byOwner).skip(skip).sort({ _id: order }).limit(limit)
+            .then(doc => {
+                res.send(doc);
+            })
+            .catch(err => {
+                res.status(400).send(err);
+            });
     });
+
 module.exports = router;

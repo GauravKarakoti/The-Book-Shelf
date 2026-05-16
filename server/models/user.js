@@ -57,26 +57,42 @@ userSchema.methods.generateToken = function(cb) {
     var user = this;
     var token = jwt.sign(user._id.toHexString(), config.SECRET);
     user.token = token;
-    user.save(function(err, user) {
-        if(err) return cb(err);
-        cb(null, user);
-    });
+    
+    user.save()
+        .then(savedUser => {
+            cb(null, savedUser);
+        })
+        .catch(err => {
+            cb(err);
+        });
 }
 userSchema.statics.findByToken = function(token, cb) {
     var user = this;
+    
+    if (!token) return cb(new Error("Token not provided"));
+
     jwt.verify(token, config.SECRET, function(err, decode) {
-        user.findOne({"_id": decode, "token": token}, function(err, user) {
-            if(err) return cb(err);
-            cb(null, user);
-        });
+        if (err) return cb(err); 
+        
+        user.findOne({"_id": decode, "token": token})
+            .then(foundUser => {
+                cb(null, foundUser);
+            })
+            .catch(err => {
+                cb(err);
+            });
     });
 }
 userSchema.methods.deleteToken = function(token, cb) {
     var user = this;
-    user.updateOne({ $unset: { token: 1 } }, function(err, user) {
-        if(err) return cb(err);
-        cb(null, user);
-    });
+    
+    user.updateOne({ $unset: { token: 1 } })
+        .then(updatedUser => {
+            cb(null, updatedUser);
+        })
+        .catch(err => {
+            cb(err);
+        });
 }
 const User = mongoose.model("User", userSchema);
 module.exports = { User }

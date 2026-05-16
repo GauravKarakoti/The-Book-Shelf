@@ -1,5 +1,4 @@
 import SideNav from "react-simple-sidenav";
-import { Link } from "react-router-dom";
 import Items from "./item";
 
 const MainNav = (props) => {

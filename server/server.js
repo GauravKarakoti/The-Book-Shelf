@@ -1,19 +1,30 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const user = require('./routes/user');
 const cookieParser = require('cookie-parser');
 const books = require('./routes/books');
 const config = require('./config/config').get(process.env.NODE_ENV);
 require('dotenv').config();
+
 const app = express();
+
 mongoose.connect(config.DATABASE);
+
 // MIDDLEWARE
+app.use(cors({
+    origin: config.FRONTEND,
+    credentials: true
+}));
+
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 app.use('/api/users', user);
 app.use('/api/books', books);
 app.use(express.static('client/build'));
+
 if(process.env.NODE_ENV === 'production') {
     const path = require('path');
     app.get('/*', (req, res) => {
@@ -21,6 +32,7 @@ if(process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
     })
 }
+
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
     console.log('SERVER RUNNING');

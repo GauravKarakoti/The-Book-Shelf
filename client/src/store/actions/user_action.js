@@ -1,5 +1,6 @@
 import axios from "axios";
 import { USER_AUTH, USER_LOGIN, USER_LOGOUT } from "../types";
+axios.defaults.withCredentials = true;
 /*================ User ================*/
 export function loginUser({email, password}) {
     const request = axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/login`, {email, password})

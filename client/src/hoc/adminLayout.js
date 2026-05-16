@@ -1,4 +1,4 @@
-const AdminLayout = (props) => {
+const AdminLayout = (props) => (
     <>
         <div className="container admin_layout">
             <>
@@ -6,5 +6,5 @@ const AdminLayout = (props) => {
             </>
         </div>
     </>
-}
+)
 export default AdminLayout;
